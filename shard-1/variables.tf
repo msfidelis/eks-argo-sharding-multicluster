@@ -28,9 +28,9 @@ variable "nodes_instances_sizes" {
 variable "auto_scale_options" {
   description = "Configuration for the EKS cluster auto-scaling. It includes the minimum (min), maximum (max), and desired (desired) number of worker nodes."
   default = {
-    min     = 4
+    min     = 3
     max     = 10
-    desired = 6
+    desired = 3
   }
 }
 
@@ -65,6 +65,19 @@ variable "argo_rollouts_virtual_service_host" {
   description = "The hostname for the Argo Rollouts virtual service, used for advanced deployment capabilities like canary and blue-green deployments in Kubernetes."
   default     = "argo-rollouts.k8s.raj.ninja"
 }
+
+variable "argo_rollouts_ingress_internal" {
+  type        = bool
+  description = "Indicates whether the Network Load Balancer (NLB) for the EKS cluster should be internal, restricting access to within the AWS network."
+  default     = false
+}
+
+variable "argo_rollouts_ingress_type" {
+  type        = string
+  description = ""
+  default     = "application"
+}
+
 
 #########################
 ###   ADDONS CONFIGS  ###

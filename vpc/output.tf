@@ -2,6 +2,10 @@ output "ssm_kms" {
   value = aws_ssm_parameter.kms.id
 }
 
+output "ssm_kms_arn" {
+  value = aws_ssm_parameter.kms_arn.id
+}
+
 output "ssm_vpc_id" {
   value = aws_ssm_parameter.vpc.id
 }

@@ -45,3 +45,9 @@ resource "aws_ssm_parameter" "kms" {
   type  = "String"
   value = aws_kms_key.eks.id
 }
+
+resource "aws_ssm_parameter" "kms_arn" {
+  name  = format("/%s/kms_arn", var.project_name)
+  type  = "String"
+  value = aws_kms_key.eks.arn
+}

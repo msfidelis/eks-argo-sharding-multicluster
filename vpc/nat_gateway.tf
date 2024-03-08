@@ -1,5 +1,5 @@
 resource "aws_eip" "vpc_iep" {
-  domain   = "vpc"
+  domain = "vpc"
   tags = {
     Name = format("%s-eip", var.project_name)
   }
