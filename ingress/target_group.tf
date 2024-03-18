@@ -4,7 +4,7 @@ resource "aws_lb_target_group" "shard_01" {
   protocol = "HTTP"
   vpc_id   = data.aws_ssm_parameter.vpc.value
   health_check {
-    path = "/"
+    path    = "/"
     matcher = "200-404"
   }
 }
@@ -15,7 +15,7 @@ resource "aws_lb_target_group" "shard_02" {
   protocol = "HTTP"
   vpc_id   = data.aws_ssm_parameter.vpc.value
   health_check {
-    path = "/"
+    path    = "/"
     matcher = "200-404"
   }
 }
