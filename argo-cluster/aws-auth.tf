@@ -12,10 +12,16 @@ resource "kubernetes_config_map" "aws-auth" {
   - system:bootstrappers
   - system:nodes
   - system:node-proxier
-- rolearn: arn:aws:iam::${data.aws_caller_identity.current.id}:role/argo-cluster-argocd-deployer
-  username: arn:aws:iam::${data.aws_caller_identity.current.id}:role/argo-cluster-argocd-deployer
+- rolearn: ${aws_iam_role.eks_cluster_role.arn}
+  username: system:node:{{SessionName}}
   groups:
-  - system:masters  
+  - system:bootstrappers
+  - system:nodes
+  - system:node-proxier
+- rolearn: arn:aws:iam::${data.aws_caller_identity.current.id}:role/argo-cluster-argocd
+  username: argocd
+  groups:
+  - system:masters
 YAML
   }
 

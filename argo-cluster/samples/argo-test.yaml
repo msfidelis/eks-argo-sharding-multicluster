@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nutrition-workload
+spec:
+  destination:
+    name: ''
+    namespace: ''
+    server: 'https://5E9D43FF1796554F7DEA819FF00FC854.gr7.us-east-1.eks.amazonaws.com'
+  source:
+    path: samples/istio
+    repoURL: 'https://github.com/msfidelis/nutrition-overengineering.git'
+    targetRevision: main
+  sources: []
+  project: default
+  syncPolicy:
+    automated: null

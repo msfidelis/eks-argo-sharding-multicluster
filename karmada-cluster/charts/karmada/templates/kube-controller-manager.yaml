@@ -1,0 +1,108 @@
+{{- $name := include "karmada.name" . -}}
+
+{{- if eq .Values.installMode "host" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}-kube-controller-manager
+  namespace: {{ include "karmada.namespace" . }}
+  labels:
+  {{- include "karmada.kube-cm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.kubeControllerManager.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "karmada.kube-cm.labels" . | nindent 6 }}
+  {{- with .Values.kubeControllerManager.strategy }}
+  strategy:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  template:
+    metadata:
+      {{- with .Values.kubeControllerManager.podAnnotations }}
+      annotations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "karmada.kube-cm.labels" . | nindent 8 }}
+        {{- include "karmada.kube-cm.podLabels" . | nindent 8 }}
+    spec:
+      {{- include "karmada.kubeControllerManager.imagePullSecrets" . | nindent 6 }}
+      automountServiceAccountToken: false
+      {{- with .Values.kubeControllerManager.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.kubeControllerManager.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.kubeControllerManager.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - command:
+            - kube-controller-manager
+            - --allocate-node-cidrs=true
+            - --authentication-kubeconfig=/etc/kubeconfig
+            - --authorization-kubeconfig=/etc/kubeconfig
+            - --bind-address=0.0.0.0
+            - --client-ca-file=/etc/karmada/pki/server-ca.crt
+            - --cluster-cidr=10.244.0.0/16
+            - --cluster-name=karmada
+            - --cluster-signing-cert-file=/etc/karmada/pki/server-ca.crt
+            - --cluster-signing-key-file=/etc/karmada/pki/server-ca.key
+            - --controllers={{ .Values.kubeControllerManager.controllers }}
+            - --kubeconfig=/etc/kubeconfig
+            - --leader-elect=true
+            - --node-cidr-mask-size=24
+            - --root-ca-file=/etc/karmada/pki/server-ca.crt
+            - --service-account-private-key-file=/etc/karmada/pki/karmada.key
+            - --service-cluster-ip-range=10.96.0.0/12
+            - --use-service-account-credentials=true
+            - --v=5
+          image: {{ template "karmada.kubeControllerManager.image" . }}
+          livenessProbe:
+            failureThreshold: 8
+            httpGet:
+              path: /healthz
+              port: 10257
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 15
+          imagePullPolicy: {{ .Values.kubeControllerManager.image.pullPolicy }}
+          name: kube-controller-manager
+          resources:
+          {{- toYaml .Values.kubeControllerManager.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /etc/karmada/pki
+              name: apisever-cert
+              readOnly: true
+            {{- include "karmada.kubeconfig.volumeMount" . | nindent 12 }}
+      priorityClassName: system-node-critical
+      volumes:
+        - name: apisever-cert
+          secret:
+            secretName: {{ $name }}-cert
+        {{- include "karmada.kubeconfig.volume" . | nindent 8 }}
+
+{{ if .Values.kubeControllerManager.podDisruptionBudget }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ $name }}-kube-controller-manager
+  namespace: {{ include "karmada.namespace" . }}
+  labels:
+    {{- include "karmada.kube-cm.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "karmada.kube-cm.labels" . | nindent 6 }}
+  {{ toYaml .Values.kubeControllerManager.podDisruptionBudget | nindent 2 }}
+{{- end -}}
+
+{{- end }}
