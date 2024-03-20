@@ -52,3 +52,49 @@ spec:
 ### Easy Way to Ingress/Egress new Shards 
 
 If there's a need to incorporate new cluster shards into the workload, it must be created, plugged into automation, and automatically the entire workload should be synced via Argo without the need for specific deployments.
+
+## Setup 
+
+### VPC - Networking Shared Resources 
+
+```bash
+cd vpc/
+terraform init
+terraform apply --auto-approve
+```
+
+### Application Load Balancers - Shared Ingress
+
+```bash
+cd ingress/
+terraform init
+terraform apply --auto-approve
+```
+
+### Setup EKS Application Shards 
+
+```bash
+cd shard-1/
+terraform init
+terraform apply --auto-approve
+
+cd ..
+
+cd shard-2/
+terraform init
+terraform apply --auto-approve
+```
+
+### Setup ArgoCD Cluster
+
+```bash
+cd argo-cluster/
+terraform init
+terraform apply --auto-approve
+```
+
+#### Get ArgoCD Admin
+
+```
+kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
