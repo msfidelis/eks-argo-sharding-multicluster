@@ -111,8 +111,6 @@ kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | 
 
 
 
-### @TODO - ArgoStack
-
-[x] Create `Clusters` dynamically
-[]  Create `Projects` dynamically
-[]  Create `ApplicationSet` dynamically
+- Create `Clusters` dynamically - :check:
+- Create `Projects` dynamically
+- Create `ApplicationSet` dynamically
