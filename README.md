@@ -108,3 +108,12 @@ kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | 
 | Kubernetes Ingress and Traffic       | Istio                                                             |
 | Continuous Delivery / State Enforcement | ArgoCD                                                           |
 | Blue/Green - Canary Releases | ArgoRollouts                                                         |
+
+
+
+### @TODO
+
+
+[x] - Create `Clusters` dynamically
+[]  - Create `Projects` dynamically
+[]  - Create `ApplicationSet` dynamically
