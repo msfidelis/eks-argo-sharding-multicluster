@@ -6,7 +6,7 @@ The objective of this proof of concept is to replicate the same deployments and 
 
 ### Infraestructure Update With Zero Downtime 
 
-All clusters will share the same load balancers, and traffic distribution will be carried out based on the weight of the Target Group.
+All clusters will share the same load balancers, and traffic distribution will be carried out based on the weight of the Target Group. The workload only has the workload splitting in sharding, and all shards have the same APIs.
 
 
 ![Step 1](.github/images/ok.drawio.png)
