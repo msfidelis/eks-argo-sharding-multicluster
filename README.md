@@ -98,3 +98,13 @@ terraform apply --auto-approve
 ```
 kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
+
+## Contents / Tooling
+
+| Necessity                            | Tooling                                                            |
+|--------------------------------------|-------------------------------------------------------------------|
+| Infrastructure as Code               | Terraform                                                         |
+| Demo Workload                        | Nutrition Overengineering (https://github.com/msfidelis/nutrition-overengineering) |
+| Kubernetes Ingress and Traffic       | Istio                                                             |
+| Continuous Delivery / State Enforcement | ArgoCD                                                           |
+| Blue/Green - Canary Releases | ArgoRollouts                                                         |
