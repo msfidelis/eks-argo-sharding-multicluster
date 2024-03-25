@@ -8,16 +8,16 @@ data "aws_iam_policy_document" "argocd_assume_role" {
     }
   }
 
-#   statement {
-#     actions = ["sts:AssumeRole"]
-#     effect  = "Allow"
-#     principals {
-#       identifiers = [
-#         format("arn:aws:iam::%s:role/%s-argocd", data.aws_caller_identity.current.id, var.cluster_name)
-#       ]
-#       type = "AWS"
-#     }
-#   }
+  #   statement {
+  #     actions = ["sts:AssumeRole"]
+  #     effect  = "Allow"
+  #     principals {
+  #       identifiers = [
+  #         format("arn:aws:iam::%s:role/%s-argocd", data.aws_caller_identity.current.id, var.cluster_name)
+  #       ]
+  #       type = "AWS"
+  #     }
+  #   }
 
 }
 

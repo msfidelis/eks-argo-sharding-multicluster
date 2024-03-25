@@ -6,7 +6,7 @@ data "aws_iam_policy_document" "argocd_deployer_assume_role" {
       identifiers = [
         aws_iam_role.argocd.arn
       ]
-      type        = "AWS"
+      type = "AWS"
     }
   }
 }

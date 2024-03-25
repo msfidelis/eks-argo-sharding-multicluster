@@ -9,3 +9,10 @@ variable "internal" {
 variable "ingress_type" {
   default = "application"
 }
+
+variable "shard_weight" {
+  default = {
+    shard_01 = 50,
+    shard_02 = 50
+  }
+}

@@ -7,11 +7,11 @@ resource "aws_lb_listener" "main" {
     forward {
       target_group {
         arn    = aws_lb_target_group.shard_01.arn
-        weight = 100
+        weight = lookup(var.shard_weight, "shard_01")
       }
       target_group {
         arn    = aws_lb_target_group.shard_02.arn
-        weight = 0
+        weight = lookup(var.shard_weight, "shard_02")
       }
     }
   }

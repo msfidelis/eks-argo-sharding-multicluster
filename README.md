@@ -110,6 +110,20 @@ kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | 
 | Blue/Green - Canary Releases | ArgoRollouts                                                         |
 
 
+## Testing 
+
+```bash
+curl http://product-ingress-1878849890.us-east-1.elb.amazonaws.com/calculator \
+-H 'Host: health.k8s.cluster.local' \
+-H 'Content-Type: application/json' \
+--data-raw '{ 
+   "age": 26,
+   "weight": 90.0,
+   "height": 1.77,
+   "gender": "M", 
+   "activity_intensity": "very_active"
+} ' --silent | jq . ;
+```
 
 - Create `Clusters` dynamically - :check:
 - Create `Projects` dynamically

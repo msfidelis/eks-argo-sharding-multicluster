@@ -20,10 +20,28 @@ variable "k8s_version" {
 variable "clusters_configs" {
   default = [
     {
+      shard_name   = "healthcare-shard-01"
       identifier   = "cluster-01"
       cluster_name = "eks-shard-1"
+    },
+    {
+      shard_name   = "healthcare-shard-02"
+      identifier   = "cluster-02"
+      cluster_name = "eks-shard-2"
     }
   ]
+}
+
+variable "argo_project_name" {
+  default = "healthcare"
+}
+
+variable "argo_github_repository" {
+  default = "https://github.com/msfidelis/nutrition-overengineering.git"
+}
+
+variable "argo_github_path" {
+  default = "samples/istio"
 }
 
 #########################
